@@ -40,11 +40,24 @@ public class CreateNewEventTest {
   @Test
   public void shouldBeCreateAndReturnValidEvent() {
     try {
-      var result = sut.perform(this.event);
+      var result = this.sut.perform(this.event);
+
       Assertions.assertEquals(result, event);
       Assertions.assertTrue(event.isValid());
     } catch (InvalidDataException e) {
       e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void shoulThrowAnExceptionIfEventIsInvalid() {
+    try {
+      this.event.setName(null);
+      this.event.setVacancies(0);
+
+      this.sut.perform(this.event);
+    } catch (InvalidDataException e) {
+      Assertions.assertEquals(e.getText(), "Invalid data for creating an event");
     }
   }
 }
