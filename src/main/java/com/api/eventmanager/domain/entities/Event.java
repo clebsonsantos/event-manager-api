@@ -22,10 +22,10 @@ public class Event {
 
   public boolean isValid() {
     if (this.id < 0
-        || this.name.length() < 0
+        || this.name == null
         || this.vacancies < 0
-        || this.startDate.getTime() < 0
-        || this.endDate.getTime() < 0) {
+        || this.startDate == null
+        || this.endDate == null) {
       return false;
     }
     return true;

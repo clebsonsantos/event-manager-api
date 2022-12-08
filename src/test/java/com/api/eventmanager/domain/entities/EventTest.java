@@ -29,4 +29,12 @@ public class EventTest {
   public void shouldBeValidateEntity() {
     Assertions.assertEquals(true, this.sut.isValid());
   }
+
+  @Test
+  public void shouldBeReturnedInvalidEntityIfEmptyValues() {
+    this.sut.setName(null);
+    this.sut.setStartDate(null);
+    System.out.println(this.sut.getName());
+    Assertions.assertEquals(false, this.sut.isValid());
+  }
 }
