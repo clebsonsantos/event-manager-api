@@ -1,11 +1,13 @@
 package com.api.eventmanager.infra.database.repositories;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
 
 import com.api.eventmanager.domain.contracts.repositories.UserRepository;
 import com.api.eventmanager.domain.entities.User;
 import com.api.eventmanager.infra.database.entities.UserEntity;
 
+@Component
 public class UserRepositoryImpl implements UserRepository {
   final SpringUserRepository springUserRepository;
 

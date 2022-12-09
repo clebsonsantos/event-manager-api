@@ -4,14 +4,20 @@ import java.lang.reflect.Field;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.api.eventmanager.application.helpers.CheckNullableAtributte;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewUser;
 import com.api.eventmanager.domain.dtos.UserDTO;
 import com.api.eventmanager.domain.errors.InvalidDataException;
 
+@RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RequestMapping("users")
 public class UserController {
   final CreateNewUser createNewUser;
 
