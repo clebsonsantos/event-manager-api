@@ -37,7 +37,7 @@ public class EventControllerTest {
   }
 
   @Test
-  public void shouldReceivedEventViaRequestAndCreatedItAndReturnCreationStatus() throws InvalidDataException {
+  public void shouldReceivedEventViaRequestAndCreatedItAndReturnCreationStatus() throws InvalidDataException, IllegalArgumentException, IllegalAccessException {
     when(createEvent.perform(Mockito.any(EventDTO.class))).thenReturn(Mockito.any(Event.class));
     var event = new EventDTO();
     event.setName("Java Week");
@@ -50,7 +50,8 @@ public class EventControllerTest {
   }
 
   @Test
-  public void shouldReceivedEventAndReturnBadRequestIfInvalid() throws InvalidDataException {
+  public void shouldReceivedEventAndReturnBadRequestIfInvalid()
+      throws InvalidDataException, IllegalArgumentException, IllegalAccessException {
     doThrow(new InvalidDataException("any-error")).when(createEvent).perform(Mockito.any(EventDTO.class));
     var eventdto = new EventDTO();
     eventdto.setName(null);
@@ -59,6 +60,6 @@ public class EventControllerTest {
     var result = this.sut.save(eventdto);
 
     Assertions.assertEquals(400, result.getStatusCodeValue());
-    verify(createEvent, times(1)).perform(Mockito.any(EventDTO.class));
+    verify(createEvent, times(0)).perform(Mockito.any(EventDTO.class));
   }
 }

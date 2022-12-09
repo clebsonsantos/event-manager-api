@@ -1,17 +1,14 @@
 package com.api.eventmanager.domain.dtos;
 
-import javax.validation.constraints.NotEmpty;
-
 public class UserDTO {
 
-  @NotEmpty
   private String name;
 
   public UserDTO() {
 
   }
 
-  public UserDTO(@NotEmpty String name) {
+  public UserDTO(String name) {
     this.name = name;
   }
 

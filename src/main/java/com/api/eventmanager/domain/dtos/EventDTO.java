@@ -2,28 +2,17 @@ package com.api.eventmanager.domain.dtos;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 public class EventDTO {
-
-  @NotEmpty
   private String name;
-
-  @NotNull
   private Integer vacancies;
-
-  @NotNull
   private Date startDate;
-
-  @NotNull
   private Date endDate;
 
   public EventDTO() {
 
   }
 
-  public EventDTO(@NotEmpty String name, @NotNull Integer vacancies, @NotNull Date startDate, @NotNull Date endDate) {
+  public EventDTO(String name, Integer vacancies, Date startDate, Date endDate) {
     this.name = name;
     this.vacancies = vacancies;
     this.startDate = startDate;

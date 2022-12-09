@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
 import com.api.eventmanager.domain.dtos.EventDTO;
 import com.api.eventmanager.domain.errors.InvalidDataException;
+import java.lang.reflect.Field;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -25,8 +26,20 @@ public class EventController {
   }
 
   @PostMapping
-  public ResponseEntity<Object> save(@RequestBody @Valid EventDTO eventReceived) {
+  public ResponseEntity<Object> save(@RequestBody EventDTO eventReceived)
+      throws IllegalArgumentException, IllegalAccessException {
     try {
+      Class<EventDTO> eventClass = EventDTO.class;
+      Field[] fields = eventClass.getDeclaredFields();
+      for (Field field : fields) {
+        field.setAccessible(true);
+        Object objeto = field.get(eventReceived);
+
+        if (objeto == null) {
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+              .body(new Error("Check that all the properties are correct").getMessage());
+        }
+      }
       var result = createNewEvent.perform(eventReceived);
       return ResponseEntity.status(HttpStatus.CREATED).body(result);
     } catch (InvalidDataException e) {
