@@ -20,7 +20,7 @@ mvn test
 ## Features
 
 - [X] Create an event
-- [ ] Create a user;
+- [X] Create a user;
 - [ ] Carry out the operation of registering a user in an event;
 - [ ] Unsubscribe a user from an event;
 - [ ] List a user's subscriptions;
