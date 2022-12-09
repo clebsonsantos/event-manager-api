@@ -1,11 +1,15 @@
 package com.api.eventmanager.infra.database.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +27,10 @@ public class EventEntity {
   private LocalDateTime startDate;
 
   private LocalDateTime endDate;
+
+  @ManyToMany
+  @JoinTable(name = "tb_events_users", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+  private List<UserEntity> users;
 
   public Long getId() {
     return id;
@@ -64,4 +72,11 @@ public class EventEntity {
     this.endDate = endDate;
   }
 
+  public List<UserEntity> getUsers() {
+    return users;
+  }
+
+  public void setUsers(List<UserEntity> users) {
+    this.users = users;
+  }
 }

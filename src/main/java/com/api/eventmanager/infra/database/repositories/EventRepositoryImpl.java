@@ -27,4 +27,14 @@ public class EventRepositoryImpl implements EventRepository {
         result.getStartDate(),
         result.getEndDate());
   }
+
+  @Override
+  public Event update(Event event) {
+    return null;
+  }
+
+  @Override
+  public Event findById(Long id) {
+    return null;
+  }
 }

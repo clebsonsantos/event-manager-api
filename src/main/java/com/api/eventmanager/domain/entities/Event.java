@@ -1,6 +1,7 @@
 package com.api.eventmanager.domain.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Event {
   private Long id;
@@ -8,6 +9,7 @@ public class Event {
   private Integer vacancies;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
+  private List<User> users;
 
   public Event() {
   }
@@ -68,6 +70,14 @@ public class Event {
 
   public void setEndDate(LocalDateTime endDate) {
     this.endDate = endDate;
+  }
+
+  public List<User> getUsers() {
+    return users;
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
   }
 
 }
