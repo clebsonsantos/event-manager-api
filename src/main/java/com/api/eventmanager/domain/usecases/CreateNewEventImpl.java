@@ -19,9 +19,6 @@ public class CreateNewEventImpl implements CreateNewEvent {
 
   @Override
   public Event perform(EventDTO event) throws InvalidDataException {
-    if (event.getStartDate() == null || event.getEndDate() == null) {
-      throw new InvalidDataException("Invalid data for creating an event");
-    }
     var eventEntity = new Event();
     eventEntity.setName(event.getName());
     eventEntity.setVacancies(event.getVacancies());
