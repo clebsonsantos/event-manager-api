@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.api.eventmanager.infra.database.entities.EventEntity;
 
 @Repository
-@SuppressWarnings("unchecked")
 public interface SpringEventRepository extends JpaRepository<EventEntity, Long> {
-  EventEntity save(EventEntity event);
 }
