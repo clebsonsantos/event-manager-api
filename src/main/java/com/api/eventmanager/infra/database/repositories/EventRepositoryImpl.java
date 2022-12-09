@@ -30,11 +30,20 @@ public class EventRepositoryImpl implements EventRepository {
 
   @Override
   public Event update(Event event) {
-    return null;
+    var eventEntity = new EventEntity();
+    BeanUtils.copyProperties(event, eventEntity);
+    var result = this.springEventRepository.save(eventEntity);
+
+    var resultEvent = new Event();
+    BeanUtils.copyProperties(result, resultEvent);
+    return resultEvent;
   }
 
   @Override
   public Event findById(Long id) {
-    return null;
+    var result = this.springEventRepository.findById(id);
+    var resultEvent = new Event();
+    BeanUtils.copyProperties(result.get(), resultEvent);
+    return resultEvent;
   }
 }
