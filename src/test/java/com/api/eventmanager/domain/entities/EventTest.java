@@ -1,6 +1,7 @@
 package com.api.eventmanager.domain.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +14,11 @@ public class EventTest {
   public void setup() {
     this.sut = new Event();
 
-    this.sut.setId(1);
+    this.sut.setId((long) 1);
     this.sut.setName("Next Level Week");
     this.sut.setVacancies(2);
-    this.sut.setStartDate(new Date());
-    this.sut.setEndDate(new Date());
+    this.sut.setStartDate(LocalDateTime.now(ZoneId.of("UTC")));
+    this.sut.setEndDate(LocalDateTime.now(ZoneId.of("UTC")));
   }
 
   @Test

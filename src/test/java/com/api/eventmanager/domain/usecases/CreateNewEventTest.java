@@ -3,6 +3,8 @@ package com.api.eventmanager.domain.usecases;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.junit.jupiter.api.Assertions;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.api.eventmanager.application.dtos.EventDTO;
 import com.api.eventmanager.domain.contracts.repositories.EventRepository;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
 import com.api.eventmanager.domain.entities.Event;
@@ -24,6 +27,7 @@ public class CreateNewEventTest {
   @Autowired
   CreateNewEvent sut;
 
+  EventDTO eventDto;
   Event event;
 
   @Mock
@@ -31,7 +35,7 @@ public class CreateNewEventTest {
 
   @BeforeAll
   public void mocks() {
-    this.event = new Event(1, "Any event", 1, new Date(), new Date());
+    this.eventDto = new EventDTO("Any event", 1, new Date(), new Date());
     eventRepository = mock(EventRepository.class);
     when(eventRepository.save(event)).thenReturn(event);
     this.sut = new CreateNewEventImpl(eventRepository);
@@ -40,10 +44,9 @@ public class CreateNewEventTest {
   @Test
   public void shouldBeCreateAndReturnValidEvent() {
     try {
-      var result = this.sut.perform(this.event);
+      var result = this.sut.perform(this.eventDto);
 
-      Assertions.assertEquals(result, event);
-      Assertions.assertTrue(event.isValid());
+      Assertions.assertEquals(result, eventDto);
     } catch (InvalidDataException e) {
       e.printStackTrace();
     }
@@ -52,10 +55,9 @@ public class CreateNewEventTest {
   @Test
   public void shoulThrowAnExceptionIfEventIsInvalid() {
     try {
-      this.event.setName(null);
-      this.event.setVacancies(0);
+      this.eventDto.setVacancies(0);
 
-      this.sut.perform(this.event);
+      this.sut.perform(this.eventDto);
     } catch (InvalidDataException e) {
       Assertions.assertEquals(e.getText(), "Invalid data for creating an event");
     }

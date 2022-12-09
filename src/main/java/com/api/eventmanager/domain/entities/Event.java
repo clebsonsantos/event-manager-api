@@ -1,18 +1,18 @@
 package com.api.eventmanager.domain.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Event {
-  private int id;
+  private Long id;
   private String name;
-  private int vacancies;
-  private Date startDate;
-  private Date endDate;
+  private Integer vacancies;
+  private LocalDateTime startDate;
+  private LocalDateTime endDate;
 
   public Event() {
   }
 
-  public Event(int id, String name, int vacancies, Date startDate, Date endDate) {
+  public Event(Long id, String name, int vacancies, LocalDateTime startDate, LocalDateTime endDate) {
     this.id = id;
     this.name = name;
     this.vacancies = vacancies;
@@ -21,9 +21,8 @@ public class Event {
   }
 
   public boolean isValid() {
-    if (this.id < 0
-        || this.name == null || this.name.length() == 0
-        || this.vacancies < 0
+    if (this.name == null || this.name.length() == 0
+        || this.vacancies <= 0
         || this.startDate == null
         || this.endDate == null) {
       return false;
@@ -31,11 +30,11 @@ public class Event {
     return true;
   }
 
-  public int getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -55,19 +54,19 @@ public class Event {
     this.vacancies = vacancies;
   }
 
-  public Date getStartDate() {
+  public LocalDateTime getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(Date startDate) {
+  public void setStartDate(LocalDateTime startDate) {
     this.startDate = startDate;
   }
 
-  public Date getEndDate() {
+  public LocalDateTime getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(Date endDate) {
+  public void setEndDate(LocalDateTime endDate) {
     this.endDate = endDate;
   }
 

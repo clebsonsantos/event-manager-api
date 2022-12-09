@@ -2,30 +2,32 @@ package com.api.eventmanager.application.dtos;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class EventDTO {
-  @NotBlank
-  private int id;
 
-  @NotBlank
+  @NotEmpty
   private String name;
 
-  @NotBlank
-  private int vacancies;
+  @NotNull
+  private Integer vacancies;
 
-  @NotBlank
+  @NotNull
   private Date startDate;
 
-  @NotBlank
+  @NotNull
   private Date endDate;
 
-  public int getId() {
-    return id;
+  public EventDTO() {
+
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public EventDTO(@NotEmpty String name, @NotNull Integer vacancies, @NotNull Date startDate, @NotNull Date endDate) {
+    this.name = name;
+    this.vacancies = vacancies;
+    this.startDate = startDate;
+    this.endDate = endDate;
   }
 
   public String getName() {

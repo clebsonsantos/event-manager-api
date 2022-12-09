@@ -38,9 +38,8 @@ public class EventControllerTest {
 
   @Test
   public void shouldReceivedEventViaRequestAndCreatedItAndReturnCreationStatus() throws InvalidDataException {
-    when(createEvent.perform(Mockito.any(Event.class))).thenReturn(Mockito.any(Event.class));
+    when(createEvent.perform(Mockito.any(EventDTO.class))).thenReturn(Mockito.any(Event.class));
     var event = new EventDTO();
-    event.setId(2);
     event.setName("Java Week");
     event.setVacancies(200);
     event.setStartDate(new Date());
@@ -52,13 +51,14 @@ public class EventControllerTest {
 
   @Test
   public void shouldReceivedEventAndReturnBadRequestIfInvalid() throws InvalidDataException {
-    doThrow(new InvalidDataException("any-error")).when(createEvent).perform(Mockito.any(Event.class));
+    doThrow(new InvalidDataException("any-error")).when(createEvent).perform(Mockito.any(EventDTO.class));
     var eventdto = new EventDTO();
-    eventdto.setId(0);
+    eventdto.setName(null);
+    eventdto.setVacancies(0);
 
     var result = this.sut.save(eventdto);
 
     Assertions.assertEquals(400, result.getStatusCodeValue());
-    verify(createEvent, times(1)).perform(Mockito.any(Event.class));
+    verify(createEvent, times(1)).perform(Mockito.any(EventDTO.class));
   }
 }
