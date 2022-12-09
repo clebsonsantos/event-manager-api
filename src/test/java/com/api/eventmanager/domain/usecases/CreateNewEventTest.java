@@ -46,7 +46,7 @@ public class CreateNewEventTest {
 
       Assertions.assertEquals(result, eventDto);
     } catch (InvalidDataException e) {
-      e.printStackTrace();
+
     }
   }
 
