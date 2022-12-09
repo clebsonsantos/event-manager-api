@@ -31,10 +31,10 @@ public class EventController {
     try {
       var event = new Event();
       BeanUtils.copyProperties(eventReceived, event);
-
-      return ResponseEntity.status(HttpStatus.CREATED).body(createNewEvent.perform(event));
+      var result = createNewEvent.perform(event);
+      return ResponseEntity.status(HttpStatus.CREATED).body(result);
     } catch (InvalidDataException e) {
-      return ResponseEntity.status(HttpStatus.CREATED).body(e.getText());
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getText());
     }
   }
 }

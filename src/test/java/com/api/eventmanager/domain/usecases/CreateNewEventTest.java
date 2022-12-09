@@ -32,7 +32,7 @@ public class CreateNewEventTest {
   @BeforeAll
   public void mocks() {
     this.event = new Event(1, "Any event", 1, new Date(), new Date());
-    EventRepository eventRepository = mock(EventRepository.class);
+    eventRepository = mock(EventRepository.class);
     when(eventRepository.save(event)).thenReturn(event);
     this.sut = new CreateNewEventImpl(eventRepository);
   }
