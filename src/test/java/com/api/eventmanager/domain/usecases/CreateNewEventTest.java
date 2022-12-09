@@ -3,8 +3,6 @@ package com.api.eventmanager.domain.usecases;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 
 import org.junit.jupiter.api.Assertions;
