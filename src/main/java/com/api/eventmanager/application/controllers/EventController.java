@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.eventmanager.application.helpers.CheckNullableAtributte;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
 import com.api.eventmanager.domain.dtos.EventDTO;
 import com.api.eventmanager.domain.errors.InvalidDataException;
@@ -29,14 +30,12 @@ public class EventController {
     try {
       Class<EventDTO> eventClass = EventDTO.class;
       Field[] fields = eventClass.getDeclaredFields();
-      for (Field field : fields) {
-        field.setAccessible(true);
-        Object objeto = field.get(eventReceived);
+      CheckNullableAtributte validFields = new CheckNullableAtributte();
 
-        if (objeto == null) {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-              .body(new Error("Check that all the properties are correct").getMessage());
-        }
+      if (!validFields.execute(fields, eventReceived)) {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(new Error("Check that all the properties are correct").getMessage());
       }
       var result = createNewEvent.perform(eventReceived);
       return ResponseEntity.status(HttpStatus.CREATED).body(result);
