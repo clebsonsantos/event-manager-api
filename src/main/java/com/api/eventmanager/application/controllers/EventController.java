@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.eventmanager.application.dtos.EventDTO;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
+import com.api.eventmanager.domain.dtos.EventDTO;
 import com.api.eventmanager.domain.errors.InvalidDataException;
 
 @RestController

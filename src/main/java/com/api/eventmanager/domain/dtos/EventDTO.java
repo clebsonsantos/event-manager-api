@@ -1,4 +1,4 @@
-package com.api.eventmanager.application.dtos;
+package com.api.eventmanager.domain.dtos;
 
 import java.util.Date;
 

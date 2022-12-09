@@ -17,8 +17,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import com.api.eventmanager.application.dtos.EventDTO;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
+import com.api.eventmanager.domain.dtos.EventDTO;
 import com.api.eventmanager.domain.entities.Event;
 import com.api.eventmanager.domain.errors.InvalidDataException;
 

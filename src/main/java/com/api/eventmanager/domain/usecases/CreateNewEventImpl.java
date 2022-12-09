@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import com.api.eventmanager.application.dtos.EventDTO;
 import com.api.eventmanager.domain.contracts.repositories.EventRepository;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
+import com.api.eventmanager.domain.dtos.EventDTO;
 import com.api.eventmanager.domain.entities.Event;
 import com.api.eventmanager.domain.errors.InvalidDataException;
 
