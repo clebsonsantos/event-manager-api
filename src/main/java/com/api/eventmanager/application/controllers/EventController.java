@@ -3,7 +3,6 @@ package com.api.eventmanager.application.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,6 @@ import com.api.eventmanager.application.helpers.RequestSubscribe;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
 import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
 import com.api.eventmanager.domain.dtos.EventDTO;
-import com.api.eventmanager.domain.entities.User;
 import com.api.eventmanager.domain.errors.InvalidDataException;
 import com.api.eventmanager.domain.errors.NotFoundException;
 
