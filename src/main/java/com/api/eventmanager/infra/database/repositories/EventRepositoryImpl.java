@@ -1,11 +1,15 @@
 package com.api.eventmanager.infra.database.repositories;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.api.eventmanager.domain.contracts.repositories.EventRepository;
 import com.api.eventmanager.domain.entities.Event;
+import com.api.eventmanager.domain.entities.User;
 import com.api.eventmanager.infra.database.entities.EventEntity;
+import com.api.eventmanager.infra.database.entities.UserEntity;
 
 @Component
 public class EventRepositoryImpl implements EventRepository {
@@ -20,30 +24,68 @@ public class EventRepositoryImpl implements EventRepository {
     var eventEntity = new EventEntity();
     BeanUtils.copyProperties(event, eventEntity);
     var result = this.springEventRepository.save(eventEntity);
+
+    var listUserEntity = result.getUsers();
+
+    var listsUser = new ArrayList<User>();
+    for (var user : listUserEntity) {
+      var newUser = new User(user.getId(), user.getName());
+      listsUser.add(newUser);
+    }
     return new Event(
         result.getId(),
         result.getName(),
         result.getVacancies(),
         result.getStartDate(),
-        result.getEndDate());
+        result.getEndDate(),
+        listsUser);
   }
 
   @Override
   public Event update(Event event) {
     var eventEntity = new EventEntity();
     BeanUtils.copyProperties(event, eventEntity);
-    var result = this.springEventRepository.save(eventEntity);
 
+    var list = new ArrayList<UserEntity>();
+    for (var user : event.getUsers()) {
+      var entity = new UserEntity();
+      entity.setId(user.getId());
+      entity.setName(user.getName());
+      list.add(entity);
+    }
+    eventEntity.setUsers(list);
+
+    var result = this.springEventRepository.save(eventEntity);
     var resultEvent = new Event();
+
+    var listResult = new ArrayList<User>();
+    for (var user : result.getUsers()) {
+      var entity = new User();
+      entity.setId(user.getId());
+      entity.setName(user.getName());
+      listResult.add(entity);
+    }
+    resultEvent.setUsers(listResult);
     BeanUtils.copyProperties(result, resultEvent);
     return resultEvent;
   }
 
   @Override
   public Event findById(Long id) {
-    var result = this.springEventRepository.findById(id);
-    var resultEvent = new Event();
-    BeanUtils.copyProperties(result.get(), resultEvent);
-    return resultEvent;
+    var result = this.springEventRepository.findById(id).get();
+    var listUserEntity = result.getUsers();
+
+    var listsUser = new ArrayList<User>();
+    for (var user : listUserEntity) {
+      var newUser = new User(user.getId(), user.getName());
+      listsUser.add(newUser);
+    }
+    return new Event(
+        result.getId(),
+        result.getName(),
+        result.getVacancies(),
+        result.getStartDate(),
+        result.getEndDate(),
+        listsUser);
   }
 }

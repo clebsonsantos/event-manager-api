@@ -1,35 +1,42 @@
 package com.api.eventmanager.domain.usecases;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.api.eventmanager.domain.contracts.repositories.EventRepository;
+import com.api.eventmanager.domain.contracts.repositories.UserRepository;
 import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
-import com.api.eventmanager.domain.dtos.UserDTO;
 import com.api.eventmanager.domain.entities.Event;
 import com.api.eventmanager.domain.entities.User;
-import com.api.eventmanager.domain.errors.InvalidDataException;
 import com.api.eventmanager.domain.errors.NotFoundException;
 
 public class SubscribeUserInEventImpl implements SubscribeUserInEvent {
   final EventRepository eventRepository;
+  final UserRepository userRepository;
 
-  public SubscribeUserInEventImpl(EventRepository eventRepository) {
+  public SubscribeUserInEventImpl(EventRepository eventRepository, UserRepository userRepository) {
     this.eventRepository = eventRepository;
+    this.userRepository = userRepository;
   }
 
   @Override
-  public Event perform(UserDTO user, Long eventId) throws InvalidDataException, NotFoundException {
-    var userEntity = new User();
-    userEntity.setName(user.getName());
-    if (!userEntity.isValid()) {
-      throw new InvalidDataException("Unable to enroll user, date is invalid");
+  public Event perform(Long userId, Long eventId) throws NotFoundException {
+    var user = userRepository.findById(userId);
+    if (!user.isValid()) {
+      throw new NotFoundException("User does not exists");
     }
-
     var event = eventRepository.findById(eventId);
-    if (event == null) {
+    if (!event.isValid()) {
       throw new NotFoundException("Event does not exists");
     }
-
-    event.getUsers().add(userEntity);
-    event.setUsers(event.getUsers());
+    if (event.getUsers() == null || event.getUsers().size() == 0) {
+      List<User> list = new ArrayList<>();
+      list.add(user);
+      event.setUsers(list);
+    } else {
+      event.getUsers().add(user);
+      event.setUsers(event.getUsers());
+    }
     return eventRepository.update(event);
   }
 }

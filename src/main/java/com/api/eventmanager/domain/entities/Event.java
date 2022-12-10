@@ -22,6 +22,15 @@ public class Event {
     this.endDate = endDate;
   }
 
+  public Event(Long id, String name, int vacancies, LocalDateTime startDate, LocalDateTime endDate, List<User> users) {
+    this.id = id;
+    this.name = name;
+    this.vacancies = vacancies;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.users = users;
+  }
+
   public boolean isValid() {
     if (this.name == null || this.name.length() == 0
         || this.vacancies <= 0

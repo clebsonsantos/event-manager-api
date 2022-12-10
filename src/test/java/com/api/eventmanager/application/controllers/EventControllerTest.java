@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
+import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
 import com.api.eventmanager.domain.dtos.EventDTO;
 import com.api.eventmanager.domain.entities.Event;
 import com.api.eventmanager.domain.errors.InvalidDataException;
@@ -30,10 +31,13 @@ public class EventControllerTest {
   @Mock
   CreateNewEvent createEvent;
 
+  @Mock
+  SubscribeUserInEvent subscribeUserInEvent;
+
   @BeforeAll
   public void setup() throws InvalidDataException {
     MockitoAnnotations.openMocks(this);
-    this.sut = new EventController(createEvent);
+    this.sut = new EventController(createEvent, subscribeUserInEvent);
   }
 
   @Test

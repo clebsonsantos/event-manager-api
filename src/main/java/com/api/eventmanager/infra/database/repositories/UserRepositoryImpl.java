@@ -25,4 +25,12 @@ public class UserRepositoryImpl implements UserRepository {
         result.getName());
   }
 
+  @Override
+  public User findById(Long id) {
+    var result = this.springUserRepository.findById(id).get();
+    return new User(
+        result.getId(),
+        result.getName());
+  }
+
 }

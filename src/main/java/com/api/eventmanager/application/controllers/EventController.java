@@ -3,15 +3,21 @@ package com.api.eventmanager.application.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.eventmanager.application.helpers.CheckNullableAtributte;
+import com.api.eventmanager.application.helpers.RequestSubscribe;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
+import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
 import com.api.eventmanager.domain.dtos.EventDTO;
+import com.api.eventmanager.domain.entities.User;
 import com.api.eventmanager.domain.errors.InvalidDataException;
+import com.api.eventmanager.domain.errors.NotFoundException;
+
 import java.lang.reflect.Field;
 
 @RestController
@@ -19,9 +25,11 @@ import java.lang.reflect.Field;
 @RequestMapping("events")
 public class EventController {
   private final CreateNewEvent createNewEvent;
+  private final SubscribeUserInEvent subscribeUserInEvent;
 
-  public EventController(CreateNewEvent createNewEvent) {
+  public EventController(CreateNewEvent createNewEvent, SubscribeUserInEvent subscribeUserInEvent) {
     this.createNewEvent = createNewEvent;
+    this.subscribeUserInEvent = subscribeUserInEvent;
   }
 
   @PostMapping
@@ -43,4 +51,15 @@ public class EventController {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getText());
     }
   }
+
+  @PostMapping("/subscribe")
+  public ResponseEntity<Object> update(@RequestBody RequestSubscribe body) {
+    try {
+      var result = subscribeUserInEvent.perform(body.getUserId(), body.getEventId());
+      return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    } catch (NotFoundException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getText());
+    }
+  }
+
 }
