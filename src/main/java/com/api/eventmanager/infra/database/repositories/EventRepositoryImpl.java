@@ -37,8 +37,7 @@ public class EventRepositoryImpl implements EventRepository {
         result.getName(),
         result.getVacancies(),
         result.getStartDate(),
-        result.getEndDate(),
-        listsUser);
+        result.getEndDate());
   }
 
   @Override
@@ -72,8 +71,12 @@ public class EventRepositoryImpl implements EventRepository {
 
   @Override
   public Event findById(Long id) {
-    var result = this.springEventRepository.findById(id).get();
-    var listUserEntity = result.getUsers();
+    var result = this.springEventRepository.findById(id);
+    if (!result.isPresent()) {
+      return null;
+    }
+    var event = result.get();
+    var listUserEntity = event.getUsers();
 
     var listsUser = new ArrayList<User>();
     for (var user : listUserEntity) {
@@ -81,11 +84,11 @@ public class EventRepositoryImpl implements EventRepository {
       listsUser.add(newUser);
     }
     return new Event(
-        result.getId(),
-        result.getName(),
-        result.getVacancies(),
-        result.getStartDate(),
-        result.getEndDate(),
+        event.getId(),
+        event.getName(),
+        event.getVacancies(),
+        event.getStartDate(),
+        event.getEndDate(),
         listsUser);
   }
 }

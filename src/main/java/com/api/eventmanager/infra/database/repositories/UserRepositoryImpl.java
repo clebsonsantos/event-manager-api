@@ -27,10 +27,14 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public User findById(Long id) {
-    var result = this.springUserRepository.findById(id).get();
+    var result = this.springUserRepository.findById(id);
+    if (!result.isPresent()) {
+      return null;
+    }
+    var user = result.get();
     return new User(
-        result.getId(),
-        result.getName());
+        user.getId(),
+        user.getName());
   }
 
 }

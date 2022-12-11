@@ -22,12 +22,17 @@ public class SubscribeUserInEventImpl implements SubscribeUserInEvent {
   @Override
   public Event perform(Long userId, Long eventId) throws NotFoundException {
     var user = userRepository.findById(userId);
-    if (!user.isValid()) {
+    if (user == null) {
       throw new NotFoundException("User does not exists");
     }
     var event = eventRepository.findById(eventId);
-    if (!event.isValid()) {
+    if (event == null) {
       throw new NotFoundException("Event does not exists");
+    }
+    for (var userEvent : event.getUsers()) {
+      if (userEvent.getId() == user.getId()) {
+        throw new NotFoundException("Already registered user");
+      }
     }
     if (event.getUsers() == null || event.getUsers().size() == 0) {
       List<User> list = new ArrayList<>();
