@@ -7,10 +7,12 @@ import com.api.eventmanager.domain.contracts.repositories.EventRepository;
 import com.api.eventmanager.domain.contracts.repositories.UserRepository;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewUser;
+import com.api.eventmanager.domain.contracts.usecases.ListUsersSubscription;
 import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
 import com.api.eventmanager.domain.contracts.usecases.UnsubscribeUserInEvent;
 import com.api.eventmanager.domain.usecases.CreateNewEventImpl;
 import com.api.eventmanager.domain.usecases.CreateNewUserImpl;
+import com.api.eventmanager.domain.usecases.ListUsersSubscriptionImpl;
 import com.api.eventmanager.domain.usecases.SubscribeUserInEventImpl;
 import com.api.eventmanager.domain.usecases.UnsubscribeUserInEventImpl;
 
@@ -35,5 +37,10 @@ public class BeanConfigurationFactories {
   @Bean
   UnsubscribeUserInEvent unsubscribeUserInEvent(EventRepository eventRepository, UserRepository userRepository) {
     return new UnsubscribeUserInEventImpl(eventRepository, userRepository);
+  }
+
+  @Bean
+  ListUsersSubscription listUsersSubscription(UserRepository userRepository) {
+    return new ListUsersSubscriptionImpl(userRepository);
   }
 }

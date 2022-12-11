@@ -6,4 +6,6 @@ public interface UserRepository {
   User save(User user);
 
   User findById(Long id);
+
+  User findUsersEventsById(Long id);
 }

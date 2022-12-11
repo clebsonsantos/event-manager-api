@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.api.eventmanager.domain.contracts.usecases.CreateNewUser;
+import com.api.eventmanager.domain.contracts.usecases.ListUsersSubscription;
 import com.api.eventmanager.domain.dtos.UserDTO;
 import com.api.eventmanager.domain.entities.User;
 import com.api.eventmanager.domain.errors.InvalidDataException;
@@ -28,10 +29,13 @@ public class UserControllerTest {
   @Mock
   CreateNewUser createNewUser;
 
+  @Mock
+  ListUsersSubscription listUsersSubscription;
+
   @BeforeAll
   public void setup() throws InvalidDataException {
     MockitoAnnotations.openMocks(this);
-    this.sut = new UserController(createNewUser);
+    this.sut = new UserController(createNewUser, listUsersSubscription);
   }
 
   @Test

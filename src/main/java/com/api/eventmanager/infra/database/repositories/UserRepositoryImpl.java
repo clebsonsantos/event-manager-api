@@ -1,9 +1,12 @@
 package com.api.eventmanager.infra.database.repositories;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.api.eventmanager.domain.contracts.repositories.UserRepository;
+import com.api.eventmanager.domain.entities.Event;
 import com.api.eventmanager.domain.entities.User;
 import com.api.eventmanager.infra.database.entities.UserEntity;
 
@@ -35,6 +38,24 @@ public class UserRepositoryImpl implements UserRepository {
     return new User(
         user.getId(),
         user.getName());
+  }
+
+  public User findUsersEventsById(Long id) {
+    var result = this.springUserRepository.findById(id);
+    if (!result.isPresent()) {
+      return null;
+    }
+    var list = new ArrayList<Event>();
+    var user = result.get();
+    for (var event : user.getEvents()) {
+      var eventResult = new Event();
+      BeanUtils.copyProperties(event, eventResult);
+      list.add(eventResult);
+    }
+    return new User(
+        user.getId(),
+        user.getName(),
+        list);
   }
 
 }
