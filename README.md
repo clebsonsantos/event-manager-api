@@ -23,6 +23,6 @@ mvn test
 - [X] Create a user;
 - [X] Carry out the operation of registering a user in an event;
 - [X] Unsubscribe a user from an event;
-- [ ] List a user's subscriptions;
+- [X] List a user's subscriptions;
 - [ ] List the registrants of an event;
 - [ ] Perform user input into the event.
