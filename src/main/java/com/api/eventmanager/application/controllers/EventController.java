@@ -3,6 +3,8 @@ package com.api.eventmanager.application.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.eventmanager.application.helpers.CheckNullableAtributte;
 import com.api.eventmanager.application.helpers.RequestSubscribe;
 import com.api.eventmanager.domain.contracts.usecases.CreateNewEvent;
+import com.api.eventmanager.domain.contracts.usecases.EventRegistrantList;
 import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
 import com.api.eventmanager.domain.contracts.usecases.UnsubscribeUserInEvent;
 import com.api.eventmanager.domain.dtos.EventDTO;
@@ -26,12 +29,14 @@ public class EventController {
   private final CreateNewEvent createNewEvent;
   private final SubscribeUserInEvent subscribeUserInEvent;
   private final UnsubscribeUserInEvent unsubscribeUserInEvent;
+  private final EventRegistrantList eventRegistrantList;
 
   public EventController(CreateNewEvent createNewEvent, SubscribeUserInEvent subscribeUserInEvent,
-      UnsubscribeUserInEvent unsubscribeUserInEvent) {
+      UnsubscribeUserInEvent unsubscribeUserInEvent, EventRegistrantList eventRegistrantList) {
     this.createNewEvent = createNewEvent;
     this.subscribeUserInEvent = subscribeUserInEvent;
     this.unsubscribeUserInEvent = unsubscribeUserInEvent;
+    this.eventRegistrantList = eventRegistrantList;
   }
 
   @PostMapping
@@ -68,6 +73,16 @@ public class EventController {
   public ResponseEntity<Object> unsubscribe(@RequestBody RequestSubscribe body) {
     try {
       var result = unsubscribeUserInEvent.perform(body.getUserId(), body.getEventId());
+      return ResponseEntity.status(HttpStatus.OK).body(result);
+    } catch (NotFoundException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getText());
+    }
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<Object> eventRegistrantList(@PathVariable(value = "id") Long id) {
+    try {
+      var result = eventRegistrantList.perform(id);
       return ResponseEntity.status(HttpStatus.OK).body(result);
     } catch (NotFoundException e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getText());
