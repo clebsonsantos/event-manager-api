@@ -4,6 +4,20 @@
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Event%20Manager%20Api&uri=https%3A%2F%2Fgithub.com%2Fclebsonsantos%2Fevent-manager-api%2Fblob%2Fmaster%2Finsomnia%2Fhttp_routes.json)
 
+## Config Database
+
+`Change the database information and create the database. `
+
+Run the query to create the database
+```
+create database events;
+```
+`Access application.properties`
+```
+spring.datasource.url= jdbc:mysql://localhost:3306/events?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=docker
+```
 ## Running
 ```bash
   mvn install
