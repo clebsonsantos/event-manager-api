@@ -1,6 +1,7 @@
 package com.api.eventmanager.domain.usecases;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.api.eventmanager.domain.contracts.repositories.EventRepository;
@@ -35,13 +36,21 @@ public class SubscribeUserInEventImpl implements SubscribeUserInEvent {
         throw new NotFoundException("Already registered user");
       }
     }
+    var calendar = Calendar.getInstance();
+    var startDate = event.getStartDate();
+
+    if (startDate.getDayOfMonth() == calendar.get(Calendar.DAY_OF_MONTH)
+        && startDate.getHour() > calendar.get(Calendar.HOUR)) {
+      throw new FailureException("Unable to register, event has already started");
+    }
+
     if (event.getUsers() == null || event.getUsers().size() == 0) {
       List<User> list = new ArrayList<>();
       list.add(user);
       event.setUsers(list);
     } else {
       if (event.getUsers().size() == event.getVacancies()) {
-        throw new FailureException("No more vacancies available");
+        throw new FailureException("Unable to apply, vacancies filled");
       }
       event.getUsers().add(user);
       event.setUsers(event.getUsers());
