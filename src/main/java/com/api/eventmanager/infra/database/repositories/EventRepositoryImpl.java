@@ -23,6 +23,7 @@ public class EventRepositoryImpl implements EventRepository {
   public Event save(Event event) {
     var eventEntity = new EventEntity();
     BeanUtils.copyProperties(event, eventEntity);
+    eventEntity.setUsers(new ArrayList<>());
     var result = this.springEventRepository.save(eventEntity);
 
     var listUserEntity = result.getUsers();

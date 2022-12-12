@@ -20,6 +20,7 @@ import com.api.eventmanager.domain.contracts.repositories.UserRepository;
 import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
 import com.api.eventmanager.domain.entities.Event;
 import com.api.eventmanager.domain.entities.User;
+import com.api.eventmanager.domain.errors.FailureException;
 import com.api.eventmanager.domain.errors.NotFoundException;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -61,7 +62,7 @@ public class SubscribeUserInEventTest {
   }
 
   @Test
-  public void shouldBeReturnValidEvent() {
+  public void shouldBeReturnValidEvent() throws FailureException {
     try {
       var result = this.sut.perform((long) 1, (long) 1);
 
@@ -76,8 +77,8 @@ public class SubscribeUserInEventTest {
     when(eventRepository.findById((long) 1)).thenReturn(null);
     try {
       this.sut.perform((long) 1, (long) 1);
-    } catch (NotFoundException e) {
-      Assertions.assertEquals(e.getText(), "Event does not exists");
+    } catch (NotFoundException | FailureException e) {
+      Assertions.assertEquals(e.getMessage(), "Event does not exists");
     }
   }
 }

@@ -8,6 +8,7 @@ import com.api.eventmanager.domain.contracts.repositories.UserRepository;
 import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
 import com.api.eventmanager.domain.entities.Event;
 import com.api.eventmanager.domain.entities.User;
+import com.api.eventmanager.domain.errors.FailureException;
 import com.api.eventmanager.domain.errors.NotFoundException;
 
 public class SubscribeUserInEventImpl implements SubscribeUserInEvent {
@@ -20,7 +21,7 @@ public class SubscribeUserInEventImpl implements SubscribeUserInEvent {
   }
 
   @Override
-  public Event perform(Long userId, Long eventId) throws NotFoundException {
+  public Event perform(Long userId, Long eventId) throws NotFoundException, FailureException {
     var user = userRepository.findById(userId);
     if (user == null) {
       throw new NotFoundException("User does not exists");
@@ -39,6 +40,9 @@ public class SubscribeUserInEventImpl implements SubscribeUserInEvent {
       list.add(user);
       event.setUsers(list);
     } else {
+      if (event.getUsers().size() == event.getVacancies()) {
+        throw new FailureException("No more vacancies available");
+      }
       event.getUsers().add(user);
       event.setUsers(event.getUsers());
     }

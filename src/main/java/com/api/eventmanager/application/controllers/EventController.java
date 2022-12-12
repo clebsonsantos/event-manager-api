@@ -17,6 +17,7 @@ import com.api.eventmanager.domain.contracts.usecases.EventRegistrantList;
 import com.api.eventmanager.domain.contracts.usecases.SubscribeUserInEvent;
 import com.api.eventmanager.domain.contracts.usecases.UnsubscribeUserInEvent;
 import com.api.eventmanager.domain.dtos.EventDTO;
+import com.api.eventmanager.domain.errors.FailureException;
 import com.api.eventmanager.domain.errors.InvalidDataException;
 import com.api.eventmanager.domain.errors.NotFoundException;
 
@@ -64,8 +65,8 @@ public class EventController {
     try {
       var result = subscribeUserInEvent.perform(body.getUserId(), body.getEventId());
       return ResponseEntity.status(HttpStatus.CREATED).body(result);
-    } catch (NotFoundException e) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getText());
+    } catch (NotFoundException | FailureException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
   }
 
