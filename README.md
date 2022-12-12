@@ -4,6 +4,8 @@
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Event%20Manager%20Api&uri=https%3A%2F%2Fgithub.com%2Fclebsonsantos%2Fevent-manager-api%2Fblob%2Fmaster%2Finsomnia%2Fhttp_routes.json)
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/15167537-43f1d786-4293-42dd-8e2c-44994e10b535?action=collection%2Ffork&collection-url=entityId%3D15167537-43f1d786-4293-42dd-8e2c-44994e10b535%26entityType%3Dcollection%26workspaceId%3Dfd4cd002-fac1-4c17-85d7-a8c403f8ae9f)
+
 ## Config Database
 
 `Change the database information and create the database. `
